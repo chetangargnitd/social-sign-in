@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'social_signin.urls'
@@ -63,10 +65,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 WSGI_APPLICATION = 'social_signin.wsgi.application'
 
@@ -100,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -119,3 +131,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_URL = 'login_user'
+LOGOUT_URL = 'logout_user'
+LOGIN_REDIRECT_URL = 'home'
+
+SOCIAL_AUTH_GITHUB_KEY = 'd8382c2df1324704c20e'
+SOCIAL_AUTH_GITHUB_SECRET = '89b6f5f9d9c90dc0b667192b91a0f552933a05e8'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '254682261734218'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '524bc42cbe6d7f81054e8cac49c32ee6'  # App Secret
+
+SOCIAL_AUTH_TWITTER_KEY = 'VSruDSRHoeg5aGSeHrgIvUGsM'
+SOCIAL_AUTH_TWITTER_SECRET = 'uewC4WCn0cs62l83zeYfIMZmqLinZ2YVgKd8tfucWT6vv9Jx6V'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '257855627762-be7bs34kgco87n0krb2a827henjgpgie.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'EHG75KLFtSF_DPG_k8baY2iy'
